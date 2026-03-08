@@ -31,6 +31,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${PCL_INCLUDE_DIRS}
   ${FORM_SRC_DIR}
+  ${FORM_SRC_DIR}/build/_deps/tsl-src/include  # tsl::robin_map fetched by FORM's FetchContent
 )
 
 link_directories(${FORM_SRC_DIR}/build)

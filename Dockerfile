@@ -11,12 +11,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common \
     build-essential \
     git \
-    cmake \
+    apt-transport-https \
+    ca-certificates \
+    wget \
     libeigen3-dev \
     libtbb-dev \
     libpcl-dev \
     nlohmann-json3-dev \
     tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── CMake >= 3.24 (required for FetchContent FIND_PACKAGE_ARGS used by FORM) ──
+# Ubuntu 20.04 ships CMake 3.16 which is too old.
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
+    | gpg --dearmor - > /usr/share/keyrings/kitware-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main" \
+    > /etc/apt/sources.list.d/kitware.list && \
+    apt-get update && apt-get install -y --no-install-recommends cmake \
     && rm -rf /var/lib/apt/lists/*
 
 # ── GTSAM 4.2 from borglab PPA ───────────────────────────────────────────────
@@ -61,8 +72,10 @@ WORKDIR /ros_ws
 COPY ./src/form-ros-node     ./src/form-ros-node
 COPY ./src/form-to-hdmapping ./src/form-to-hdmapping
 
+# CMAKE_POLICY_VERSION_MINIMUM is needed because the new CMake (3.30+) rejects
+# catkin's toplevel.cmake which uses cmake_minimum_required(VERSION 2.8.12).
 RUN source /opt/ros/noetic/setup.bash && \
-    catkin_make -DCMAKE_BUILD_TYPE=Release
+    catkin_make -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
 # ── Non-root user ─────────────────────────────────────────────────────────────
 ARG UID=1000
