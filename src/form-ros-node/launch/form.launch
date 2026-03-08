@@ -1,0 +1,14 @@
+<launch>
+  <!-- FORM LiDAR odometry ROS node -->
+  <!-- Subscribes to input_topic, publishes /form/odometry and /form/registered_cloud -->
+  <node pkg="form_ros_node" type="form_ros_node" name="form_ros_node" output="screen">
+    <!-- Input point cloud topic (sensor_msgs/PointCloud2) -->
+    <param name="input_topic"  value="/velodyne_points"/>
+    <!-- LiDAR geometry — adjust for your sensor model -->
+    <!-- Velodyne HDL-64E: 64 rows x 1024 columns -->
+    <!-- Velodyne VLP-16:  16 rows x 1800 columns -->
+    <!-- Ouster OS1-64:    64 rows x 1024 columns -->
+    <param name="num_rows"     value="64"/>
+    <param name="num_columns"  value="1024"/>
+  </node>
+</launch>
