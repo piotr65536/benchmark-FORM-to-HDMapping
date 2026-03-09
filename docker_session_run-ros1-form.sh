@@ -9,15 +9,9 @@ BAG_OUTPUT_CONTAINER='/ros_ws/recordings'
 RECORDED_BAG_NAME="recorded-form.bag"
 HDMAPPING_OUT_NAME="output_hdmapping"
 
-# ── LiDAR sensor geometry (adjust for your sensor!) ──────────────────────────
-# Velodyne HDL-64E: 64 rows x 1024 columns
-# Velodyne VLP-16:  16 rows x 1800 columns
-# Ouster OS1-64:    64 rows x 1024 columns
-# Livox Mid-360:    6 rows  x 4000 columns  (approximate, semi-solid-state)
-LIDAR_NUM_ROWS="${LIDAR_NUM_ROWS:-64}"
-LIDAR_NUM_COLS="${LIDAR_NUM_COLS:-1024}"
-# Input topic override (default: /velodyne_points)
-LIDAR_TOPIC="${LIDAR_TOPIC:-/velodyne_points}"
+LIDAR_TOPIC=/livox/pointcloud
+LIDAR_NUM_ROWS=6 
+LIDAR_NUM_COLS=4000
 
 usage() {
   echo "Usage:"
