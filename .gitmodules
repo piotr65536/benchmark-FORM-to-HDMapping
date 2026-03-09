@@ -1,0 +1,6 @@
+[submodule "src/form"]
+	path = src/form
+	url = https://github.com/rpl-cmu/form.git
+[submodule "src/form-to-hdmapping/src/3rdparty/LASzip"]
+	path = src/form-to-hdmapping/src/3rdparty/LASzip
+	url = https://github.com/LASzip/LASzip.git
